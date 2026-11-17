@@ -61,6 +61,10 @@ src/app
 | HU05 | Caja y vouchers          | Cajero      |
 | HU06 | Reportes de ventas       | Propietario |
 
+## Cómo colaborar
+
+Lee [CONTRIBUTING.md](CONTRIBUTING.md) antes de subir tu parte.
+
 ## Flujo de ramas
 
 - `main`: versión estable
