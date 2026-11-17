@@ -1,0 +1,115 @@
+<h1 class="h3 titulo-pagina"><i class="bi bi-cash-coin"></i> Caja</h1>
+<p class="text-secondary">Busca la cuenta por número de mesa, selecciona los productos a pagar y registra el pago.</p>
+
+<div class="row g-4">
+  <section class="col-lg-4">
+    <div class="input-group mb-3">
+      <span class="input-group-text"><i class="bi bi-search"></i></span>
+      <input class="form-control" placeholder="N.° de mesa" aria-label="Buscar por número de mesa" [ngModel]="busqueda()" (ngModelChange)="busqueda.set($event)" />
+    </div>
+
+    <div class="list-group">
+      @for (c of cuentas(); track c.id) {
+        <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+          [class.active]="c.id === cuentaId()" (click)="abrir(c.id)">
+          <span>
+            <strong>{{ c.tipo === 'Mesa' ? 'Mesa ' + c.mesa : 'Para llevar #' + c.id }}</strong>
+            <br /><small>{{ c.mesero }}</small>
+          </span>
+          <span class="fw-bold">{{ data.saldo(c.id) | currency: 'PEN' : 'S/ ' }}</span>
+        </button>
+      } @empty {
+        <div class="alert alert-info mb-0">No hay cuentas pendientes de cobro.</div>
+      }
+    </div>
+  </section>
+
+  <section class="col-lg-8">
+    @if (cuenta(); as c) {
+      <div class="card mb-3">
+        <div class="card-header d-flex justify-content-between">
+          <strong>{{ c.tipo === 'Mesa' ? 'Mesa ' + c.mesa : 'Para llevar #' + c.id }}</strong>
+          <span class="badge" [class.bg-danger]="c.estado === 'Abierta'" [class.bg-success]="c.estado === 'Pagada'">{{ c.estado }}</span>
+        </div>
+        <div class="card-body">
+          @if (pendientes().length > 0) {
+            <div class="table-responsive">
+              <table class="table table-sm align-middle">
+                <thead>
+                  <tr><th></th><th>Producto</th><th class="text-end">Cant.</th><th class="text-end">Subtotal</th></tr>
+                </thead>
+                <tbody>
+                  @for (l of pendientes(); track l.id) {
+                    <tr>
+                      <td><input type="checkbox" class="form-check-input" [attr.aria-label]="'Pagar ' + l.producto.nombre"
+                        [checked]="seleccion().includes(l.id)" (change)="alternar(l.id, $any($event.target).checked)" /></td>
+                      <td>{{ l.producto.nombre }}</td>
+                      <td class="text-end">{{ l.cantidad }}</td>
+                      <td class="text-end">{{ l.producto.precio * l.cantidad | currency: 'PEN' : 'S/ ' }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+
+            <div class="d-flex flex-wrap gap-3 align-items-end">
+              <button type="button" class="btn btn-outline-secondary" (click)="seleccionarTodo()">Seleccionar todo</button>
+              <div>
+                <label for="metodo" class="form-label small mb-1">Método de pago</label>
+                <select id="metodo" class="form-select" [ngModel]="metodo()" (ngModelChange)="metodo.set($event)">
+                  @for (m of data.metodosPago; track m) { <option [value]="m">{{ m }}</option> }
+                </select>
+              </div>
+              <div class="ms-auto text-end">
+                <div class="small text-secondary">Saldo: {{ saldo() | currency: 'PEN' : 'S/ ' }}</div>
+                <div class="fs-5">A pagar: <strong>{{ importe() | currency: 'PEN' : 'S/ ' }}</strong></div>
+              </div>
+              <button type="button" class="btn btn-mysam" (click)="pagar()"><i class="bi bi-check2"></i> Registrar pago</button>
+            </div>
+          } @else {
+            <p class="mb-0 text-success"><i class="bi bi-check-circle"></i> Cuenta pagada en su totalidad.</p>
+          }
+
+          @if (mensaje(); as m) {
+            <div class="alert mt-3 mb-0 py-2" [class.alert-success]="m.ok" [class.alert-danger]="!m.ok" role="alert">{{ m.texto }}</div>
+          }
+        </div>
+      </div>
+
+      <!-- Vouchers internos -->
+      <div class="row g-3">
+        @if (ultimoPago(); as p) {
+          <div class="col-md-6">
+            <div class="voucher p-3">
+              <div class="text-center fw-bold">CHIFA MY SAM</div>
+              <div class="text-center small mb-2">Voucher interno de pago</div>
+              <div class="small">{{ p.fecha | date: 'dd/MM/yyyy HH:mm' }} · {{ p.metodo }}</div>
+              <hr class="my-2" />
+              @for (l of p.lineas; track l.id) {
+                <div class="d-flex justify-content-between small"><span>{{ l.cantidad }} {{ l.producto.nombre }}</span><span>{{ l.producto.precio * l.cantidad | currency: 'PEN' : 'S/ ' }}</span></div>
+              }
+              <hr class="my-2" />
+              <div class="d-flex justify-content-between fw-bold"><span>TOTAL PAGADO</span><span>{{ p.monto | currency: 'PEN' : 'S/ ' }}</span></div>
+              <button type="button" class="btn btn-sm btn-outline-dark w-100 mt-2 no-print" (click)="imprimir()"><i class="bi bi-printer"></i> Imprimir</button>
+            </div>
+          </div>
+        }
+        @if (pendientes().length > 0) {
+          <div class="col-md-6">
+            <div class="voucher p-3">
+              <div class="text-center fw-bold">CHIFA MY SAM</div>
+              <div class="text-center small mb-2">Consumo pendiente</div>
+              @for (l of pendientes(); track l.id) {
+                <div class="d-flex justify-content-between small"><span>{{ l.cantidad }} {{ l.producto.nombre }}</span><span>{{ l.producto.precio * l.cantidad | currency: 'PEN' : 'S/ ' }}</span></div>
+              }
+              <hr class="my-2" />
+              <div class="d-flex justify-content-between fw-bold"><span>TOTAL PENDIENTE</span><span>{{ saldo() | currency: 'PEN' : 'S/ ' }}</span></div>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="alert alert-secondary">Selecciona una cuenta para ver su detalle.</div>
+    }
+  </section>
+</div>

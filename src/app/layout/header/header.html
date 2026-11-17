@@ -1,0 +1,22 @@
+<header class="navbar navbar-dark barra px-3">
+  <div class="d-flex align-items-center gap-2">
+    <button class="btn btn-outline-light d-md-none" type="button" aria-label="Abrir menú" (click)="toggleMenu.emit()">
+      <i class="bi bi-list"></i>
+    </button>
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" routerLink="/inicio">
+      <span class="logo">龍</span> Chifa MY SAM
+    </a>
+  </div>
+
+  @if (usuario(); as u) {
+    <div class="d-flex align-items-center gap-3 text-white">
+      <div class="text-end lh-sm d-none d-sm-block">
+        <div class="fw-semibold">{{ u.nombre }}</div>
+        <small class="opacity-75">{{ u.rol }}</small>
+      </div>
+      <button class="btn btn-sm btn-warning" type="button" (click)="cerrarSesion()">
+        <i class="bi bi-box-arrow-right"></i> Salir
+      </button>
+    </div>
+  }
+</header>

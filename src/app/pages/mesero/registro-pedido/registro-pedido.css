@@ -1,0 +1,21 @@
+.mesa {
+  width: 3rem;
+}
+
+.producto {
+  border-left: 4px solid var(--mysam-dorado);
+  transition: background 0.15s ease;
+}
+
+.producto:hover {
+  background: #fff3e0;
+}
+
+.cantidad {
+  width: 4.5rem;
+  flex-shrink: 0;
+}
+
+.resumen {
+  top: 1rem;
+}

@@ -1,0 +1,11 @@
+.voucher {
+  background: #fff;
+  border: 1px dashed #999;
+  font-family: 'Courier New', monospace;
+}
+
+@media print {
+  .no-print {
+    display: none;
+  }
+}

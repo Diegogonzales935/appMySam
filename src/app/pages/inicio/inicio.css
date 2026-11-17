@@ -1,0 +1,9 @@
+.acceso {
+  color: var(--mysam-rojo-oscuro);
+  border-left: 5px solid var(--mysam-dorado);
+  transition: transform 0.15s ease;
+}
+
+.acceso:hover {
+  transform: translateY(-3px);
+}

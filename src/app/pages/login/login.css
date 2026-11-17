@@ -1,0 +1,21 @@
+.fondo {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, var(--mysam-rojo), var(--mysam-rojo-oscuro));
+}
+
+.tarjeta {
+  width: 100%;
+  max-width: 400px;
+  border-top: 6px solid var(--mysam-dorado);
+}
+
+.logo {
+  display: grid;
+  place-items: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background: var(--mysam-rojo);
+  color: var(--mysam-dorado);
+  font-size: 2rem;
+}

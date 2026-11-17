@@ -1,0 +1,15 @@
+.barra {
+  background: linear-gradient(90deg, var(--mysam-rojo-oscuro), var(--mysam-rojo));
+  border-bottom: 4px solid var(--mysam-dorado);
+}
+
+.logo {
+  display: inline-grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: var(--mysam-dorado);
+  color: var(--mysam-rojo-oscuro);
+  font-size: 1.1rem;
+}

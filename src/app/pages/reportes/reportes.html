@@ -1,0 +1,109 @@
+<h1 class="h3 titulo-pagina"><i class="bi bi-bar-chart"></i> Reportes de ventas</h1>
+<p class="text-secondary">Selecciona un periodo para consultar las ventas del restaurante.</p>
+
+<div class="card mb-4">
+  <div class="card-body d-flex flex-wrap gap-3 align-items-end">
+    <div>
+      <label for="desde" class="form-label small mb-1">Desde</label>
+      <input id="desde" type="date" class="form-control" [ngModel]="desde()" (ngModelChange)="desde.set($event)" />
+    </div>
+    <div>
+      <label for="hasta" class="form-label small mb-1">Hasta</label>
+      <input id="hasta" type="date" class="form-control" [ngModel]="hasta()" (ngModelChange)="hasta.set($event)" />
+    </div>
+  </div>
+</div>
+
+@if (pagos().length === 0) {
+  <div class="alert alert-warning">No existen ventas para el periodo seleccionado.</div>
+} @else {
+  <div class="row g-3 mb-4">
+    <div class="col-sm-6 col-lg-3">
+      <div class="card text-center"><div class="card-body">
+        <div class="small text-secondary">Total vendido</div>
+        <div class="fs-4 fw-bold text-danger">{{ total() | currency: 'PEN' : 'S/ ' }}</div>
+      </div></div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="card text-center"><div class="card-body">
+        <div class="small text-secondary">N.° de pagos</div>
+        <div class="fs-3 fw-bold">{{ pagos().length }}</div>
+      </div></div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="card text-center"><div class="card-body">
+        <div class="small text-secondary">Ticket promedio</div>
+        <div class="fs-3 fw-bold">{{ total() / pagos().length | currency: 'PEN' : 'S/ ' }}</div>
+      </div></div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="card text-center"><div class="card-body">
+        <div class="small text-secondary">Producto más vendido</div>
+        <div class="fw-bold">{{ productos()[0]?.nombre }}</div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-lg-6">
+      <div class="card h-100">
+        <div class="card-header fw-bold">Productos más vendidos</div>
+        <div class="table-responsive">
+          <table class="table table-sm mb-0">
+            <thead><tr><th>Producto</th><th class="text-end">Unid.</th><th class="text-end">Monto</th></tr></thead>
+            <tbody>
+              @for (f of productos(); track f.nombre) {
+                <tr><td>{{ f.nombre }}</td><td class="text-end">{{ f.cantidad }}</td><td class="text-end">{{ f.monto | currency: 'PEN' : 'S/ ' }}</td></tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6 d-flex flex-column gap-3">
+      <div class="card">
+        <div class="card-header fw-bold">Métodos de pago</div>
+        <div class="card-body">
+          @for (f of porMetodo(); track f.nombre) {
+            <div class="d-flex justify-content-between small"><span>{{ f.nombre }} ({{ f.cantidad }})</span><span>{{ f.monto | currency: 'PEN' : 'S/ ' }}</span></div>
+            <div class="progress mb-2" role="progressbar" [attr.aria-label]="f.nombre" [attr.aria-valuenow]="porcentaje(f.monto)" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar bg-danger" [style.width.%]="porcentaje(f.monto)">{{ porcentaje(f.monto) }}%</div>
+            </div>
+          }
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header fw-bold">Ventas por mesero</div>
+        <div class="card-body">
+          @for (f of porMesero(); track f.nombre) {
+            <div class="d-flex justify-content-between small"><span>{{ f.nombre }} ({{ f.cantidad }} pagos)</span><span>{{ f.monto | currency: 'PEN' : 'S/ ' }}</span></div>
+            <div class="progress mb-2" role="progressbar" [attr.aria-label]="f.nombre" [attr.aria-valuenow]="porcentaje(f.monto)" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar bg-warning text-dark" [style.width.%]="porcentaje(f.monto)">{{ porcentaje(f.monto) }}%</div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header fw-bold">Historial de pagos</div>
+    <div class="table-responsive">
+      <table class="table table-sm table-striped mb-0">
+        <thead><tr><th>Fecha</th><th>Mesa</th><th>Mesero</th><th>Método</th><th class="text-end">Monto</th></tr></thead>
+        <tbody>
+          @for (p of pagos(); track p.id) {
+            <tr>
+              <td>{{ p.fecha | date: 'dd/MM/yyyy HH:mm' }}</td>
+              <td>{{ p.mesa ?? 'Para llevar' }}</td>
+              <td>{{ p.mesero }}</td>
+              <td>{{ p.metodo }}</td>
+              <td class="text-end">{{ p.monto | currency: 'PEN' : 'S/ ' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+}

@@ -1,0 +1,13 @@
+<div class="layout">
+  <app-header (toggleMenu)="menuAbierto.set(!menuAbierto())" />
+
+  <div class="cuerpo">
+    <app-sidebar [class.abierto]="menuAbierto()" (navegar)="menuAbierto.set(false)" />
+
+    <main class="contenido">
+      <router-outlet />
+    </main>
+  </div>
+
+  <app-footer />
+</div>

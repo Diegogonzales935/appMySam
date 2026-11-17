@@ -1,1 +1,37 @@
-/* You can add global styles to this file, and also import other style files */
+/* Identidad visual del Chifa MY SAM */
+:root {
+  --mysam-rojo: #b71c1c;
+  --mysam-rojo-oscuro: #7f0000;
+  --mysam-dorado: #f9a825;
+  --mysam-crema: #fff8ee;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--mysam-crema);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+.btn-mysam {
+  --bs-btn-bg: var(--mysam-rojo);
+  --bs-btn-border-color: var(--mysam-rojo);
+  --bs-btn-hover-bg: var(--mysam-rojo-oscuro);
+  --bs-btn-hover-border-color: var(--mysam-rojo-oscuro);
+  --bs-btn-active-bg: var(--mysam-rojo-oscuro);
+  --bs-btn-color: #fff;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-active-color: #fff;
+}
+
+.titulo-pagina {
+  color: var(--mysam-rojo-oscuro);
+  font-weight: 700;
+}
+
+.badge-estado {
+  font-size: 0.8rem;
+}

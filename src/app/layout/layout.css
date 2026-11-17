@@ -1,0 +1,41 @@
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.cuerpo {
+  flex: 1;
+  display: flex;
+  position: relative;
+}
+
+.contenido {
+  flex: 1;
+  min-width: 0;
+  padding: 1.5rem;
+}
+
+app-sidebar {
+  width: 240px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 767.98px) {
+  .contenido {
+    padding: 1rem;
+  }
+
+  app-sidebar {
+    position: absolute;
+    inset: 0 auto 0 0;
+    z-index: 1020;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+  }
+
+  app-sidebar.abierto {
+    transform: translateX(0);
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+  }
+}

@@ -1,0 +1,20 @@
+:host {
+  display: block;
+  background: #2b0a0a;
+}
+
+.nav-link {
+  color: #f3dede;
+  border-radius: 0.5rem;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.nav-link.activo {
+  background: var(--mysam-dorado);
+  color: #2b0a0a;
+  font-weight: 600;
+}

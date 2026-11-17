@@ -1,0 +1,96 @@
+<h1 class="h3 titulo-pagina"><i class="bi bi-journal-plus"></i> Registro de pedido</h1>
+<p class="text-secondary">Selecciona el tipo de pedido, la mesa y agrega los productos solicitados por el cliente.</p>
+
+<div class="row g-4">
+  <!-- Carta -->
+  <section class="col-lg-7">
+    <div class="card mb-3">
+      <div class="card-body">
+        <div class="btn-group mb-3" role="group" aria-label="Tipo de pedido">
+          <input type="radio" class="btn-check" id="tipoMesa" name="tipo" [checked]="tipo() === 'Mesa'" (change)="cambiarTipo('Mesa')" />
+          <label class="btn btn-outline-danger" for="tipoMesa"><i class="bi bi-shop"></i> Mesa</label>
+          <input type="radio" class="btn-check" id="tipoLlevar" name="tipo" [checked]="tipo() === 'Para llevar'" (change)="cambiarTipo('Para llevar')" />
+          <label class="btn btn-outline-danger" for="tipoLlevar"><i class="bi bi-bag"></i> Para llevar</label>
+        </div>
+
+        @if (tipo() === 'Mesa') {
+          <p class="mb-2 small text-secondary">
+            Las mesas <span class="badge bg-warning text-dark">con cuenta abierta</span> agregan productos a la misma cuenta.
+          </p>
+          <div class="d-flex flex-wrap gap-2">
+            @for (n of data.mesas; track n) {
+              <button type="button" class="btn mesa"
+                [class.btn-danger]="mesa() === n"
+                [class.btn-warning]="mesa() !== n && mesaAbierta(n)"
+                [class.btn-outline-secondary]="mesa() !== n && !mesaAbierta(n)"
+                (click)="mesa.set(n)">
+                {{ n }}
+              </button>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2 mb-3">
+      @for (c of categorias(); track c) {
+        <button type="button" class="btn btn-sm" [class.btn-dark]="categoria() === c" [class.btn-outline-dark]="categoria() !== c" (click)="categoria.set(c)">{{ c }}</button>
+      }
+    </div>
+
+    <div class="row g-2">
+      @for (p of productosFiltrados(); track p.id) {
+        <div class="col-sm-6 col-xl-4">
+          <button type="button" class="card producto w-100 text-start h-100" (click)="agregar(p)">
+            <div class="card-body py-2 w-100">
+              <div class="fw-semibold">{{ p.nombre }}</div>
+              <div class="d-flex justify-content-between small">
+                <span class="text-secondary">{{ p.categoria }}</span>
+                <span class="fw-bold text-danger">{{ p.precio | currency: 'PEN' : 'S/ ' }}</span>
+              </div>
+            </div>
+          </button>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Pedido -->
+  <section class="col-lg-5">
+    <div class="card sticky-lg-top resumen">
+      <div class="card-header fw-bold">
+        Pedido · {{ tipo() === 'Mesa' ? (mesa() ? 'Mesa ' + mesa() : 'sin mesa') : 'Para llevar' }}
+      </div>
+      <div class="card-body">
+        @for (i of carrito(); track i.producto.id) {
+          <div class="border-bottom pb-2 mb-2">
+            <div class="d-flex justify-content-between align-items-center">
+              <strong>{{ i.producto.nombre }}</strong>
+              <button type="button" class="btn btn-sm btn-link text-danger" aria-label="Quitar" (click)="quitar(i)"><i class="bi bi-trash"></i></button>
+            </div>
+            <div class="d-flex gap-2 align-items-center">
+              <input type="number" min="1" class="form-control form-control-sm cantidad" aria-label="Cantidad"
+                [ngModel]="i.cantidad" (ngModelChange)="actualizar(i, { cantidad: $event })" />
+              <input class="form-control form-control-sm" placeholder="Indicaciones (sin cebollita, picante…)" aria-label="Indicaciones"
+                [ngModel]="i.indicaciones" (ngModelChange)="actualizar(i, { indicaciones: $event })" />
+            </div>
+          </div>
+        } @empty {
+          <p class="text-secondary mb-0">Toca un producto de la carta para agregarlo.</p>
+        }
+
+        <div class="d-flex justify-content-between fs-5 mt-3">
+          <span>Total</span><strong>{{ total() | currency: 'PEN' : 'S/ ' }}</strong>
+        </div>
+
+        @if (mensaje(); as m) {
+          <div class="alert mt-3 mb-0 py-2" [class.alert-success]="m.ok" [class.alert-danger]="!m.ok" role="alert">{{ m.texto }}</div>
+        }
+
+        <button type="button" class="btn btn-mysam w-100 mt-3" (click)="confirmar()">
+          <i class="bi bi-send"></i> Confirmar y enviar a cocina
+        </button>
+      </div>
+    </div>
+  </section>
+</div>

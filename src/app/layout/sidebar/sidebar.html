@@ -1,0 +1,11 @@
+<nav class="menu h-100 py-3" aria-label="Menú principal">
+  <ul class="nav flex-column gap-1 px-2">
+    @for (e of menu(); track e.ruta) {
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="e.ruta" routerLinkActive="activo" (click)="navegar.emit()">
+          <i class="bi {{ e.icono }} me-2"></i>{{ e.texto }}
+        </a>
+      </li>
+    }
+  </ul>
+</nav>

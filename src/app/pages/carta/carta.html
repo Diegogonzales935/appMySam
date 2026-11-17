@@ -1,0 +1,48 @@
+<h1 class="h3 titulo-pagina"><i class="bi bi-book"></i> Carta de productos</h1>
+<p class="text-secondary">Administra los productos que los meseros pueden registrar en los pedidos.</p>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <form class="row g-2 align-items-end" (ngSubmit)="agregar()">
+      <div class="col-md-5">
+        <label for="nombre" class="form-label small mb-1">Nombre</label>
+        <input id="nombre" name="nombre" class="form-control" [(ngModel)]="nombre" />
+      </div>
+      <div class="col-md-3">
+        <label for="categoria" class="form-label small mb-1">Categoría</label>
+        <input id="categoria" name="categoria" class="form-control" list="categorias" [(ngModel)]="categoria" />
+        <datalist id="categorias">
+          <option value="Arroces"></option>
+          <option value="Tallarines"></option>
+          <option value="Platos de fondo"></option>
+          <option value="Sopas"></option>
+          <option value="Entradas"></option>
+          <option value="Bebidas"></option>
+        </datalist>
+      </div>
+      <div class="col-md-2">
+        <label for="precio" class="form-label small mb-1">Precio (S/)</label>
+        <input id="precio" name="precio" type="number" min="0" step="0.5" class="form-control" [(ngModel)]="precio" />
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-mysam w-100" type="submit"><i class="bi bi-plus-lg"></i> Agregar</button>
+      </div>
+    </form>
+    @if (mensaje(); as m) {
+      <div class="alert mt-3 mb-0 py-2" [class.alert-success]="m.ok" [class.alert-danger]="!m.ok" role="alert">{{ m.texto }}</div>
+    }
+  </div>
+</div>
+
+<div class="card">
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead><tr><th>#</th><th>Producto</th><th>Categoría</th><th class="text-end">Precio</th></tr></thead>
+      <tbody>
+        @for (p of data.productos(); track p.id) {
+          <tr><td>{{ p.id }}</td><td>{{ p.nombre }}</td><td>{{ p.categoria }}</td><td class="text-end">{{ p.precio | currency: 'PEN' : 'S/ ' }}</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
