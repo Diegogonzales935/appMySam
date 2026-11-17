@@ -1,0 +1,193 @@
+<!-- Barra de navegación pública -->
+<nav class="navbar navbar-expand-md navbar-dark barra fixed-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#home" (click)="$event.preventDefault(); irA('home')">
+      <span class="logo">龍</span> Chifa MY SAM
+    </a>
+    <button class="navbar-toggler" type="button" aria-label="Abrir menú" [attr.aria-expanded]="menuAbierto()" (click)="menuAbierto.set(!menuAbierto())">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" [class.show]="menuAbierto()">
+      <ul class="navbar-nav ms-auto align-items-md-center gap-md-2">
+        @for (s of secciones; track s.id) {
+          <li class="nav-item">
+            <a class="nav-link" [href]="'#' + s.id" (click)="$event.preventDefault(); irA(s.id)">{{ s.texto }}</a>
+          </li>
+        }
+        <li class="nav-item ms-md-2 mt-2 mt-md-0">
+          @if (sesion()) {
+            <a class="btn btn-warning btn-sm fw-semibold" routerLink="/inicio"><i class="bi bi-speedometer2"></i> Ir al sistema</a>
+          } @else {
+            <a class="btn btn-warning btn-sm fw-semibold" routerLink="/login"><i class="bi bi-person-lock"></i> Personal</a>
+          }
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HOME -->
+<section id="home" class="hero d-flex align-items-center text-white">
+  <div class="container py-5">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7">
+        <span class="badge bg-warning text-dark mb-3">Desde 2023 · Lima</span>
+        <h1 class="display-4 fw-bold">El sabor chino-peruano que te hace volver</h1>
+        <p class="lead opacity-75">
+          En MY SAM preparamos al momento tus platos favoritos de chifa: chaufas, tallarines, wantanes y mucho más,
+          para comer en el local o para llevar.
+        </p>
+        <div class="d-flex flex-wrap gap-2 mt-4">
+          <button type="button" class="btn btn-warning btn-lg fw-semibold" (click)="irA('carta')"><i class="bi bi-book"></i> Ver la carta</button>
+          <button type="button" class="btn btn-outline-light btn-lg" (click)="irA('contacto')"><i class="bi bi-telephone"></i> Contáctanos</button>
+        </div>
+      </div>
+      <div class="col-lg-5 text-center d-none d-lg-block">
+        <div class="plato mx-auto">
+          <span>🥢</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESUMEN -->
+<section id="resumen" class="seccion">
+  <div class="container">
+    <h2 class="titulo-seccion">Resumen</h2>
+    <p class="text-secondary text-center mx-auto mb-5 intro">
+      MY SAM abrió sus puertas en 2023 en Lima como un establecimiento dedicado a la preparación y venta de comida
+      chino-peruana. Desde sus inicios ofrece una variedad de platos que combinan los sabores de la gastronomía china y
+      peruana, con atención en el local y pedidos para llevar.
+    </p>
+
+    <div class="row g-4 mb-5">
+      <div class="col-md-6">
+        <div class="card h-100 tarjeta">
+          <div class="card-body">
+            <h3 class="h5"><i class="bi bi-bullseye text-danger"></i> Misión</h3>
+            <p class="mb-0">
+              Ofrecer comida chifa de calidad, brindando a nuestros clientes una experiencia agradable mediante una buena
+              atención y platos que combinan los sabores de la gastronomía chino-peruana.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card h-100 tarjeta">
+          <div class="card-body">
+            <h3 class="h5"><i class="bi bi-eye text-danger"></i> Visión</h3>
+            <p class="mb-0">
+              Ser un restaurante chifa reconocido por la calidad de sus platos, la buena atención y la satisfacción de sus
+              clientes, consolidándonos como una opción preferida en nuestra localidad.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 text-center">
+      <div class="col-sm-6 col-lg-3">
+        <i class="bi bi-fire icono"></i>
+        <h3 class="h6 mt-2">Al wok, al momento</h3>
+        <p class="small text-secondary mb-0">Cada plato se prepara cuando lo pides.</p>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <i class="bi bi-shop icono"></i>
+        <h3 class="h6 mt-2">En el local</h3>
+        <p class="small text-secondary mb-0">Un espacio cómodo para compartir en familia.</p>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <i class="bi bi-bag-check icono"></i>
+        <h3 class="h6 mt-2">Para llevar</h3>
+        <p class="small text-secondary mb-0">Tus platos favoritos listos para llevar a casa.</p>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <i class="bi bi-credit-card icono"></i>
+        <h3 class="h6 mt-2">Pagos fáciles</h3>
+        <p class="small text-secondary mb-0">Efectivo, tarjeta, Yape y Plin.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARTA -->
+<section id="carta" class="seccion bg-carta">
+  <div class="container">
+    <h2 class="titulo-seccion">Nuestra carta</h2>
+
+    <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+      @for (c of categorias(); track c) {
+        <button type="button" class="btn btn-sm rounded-pill" [class.btn-danger]="categoria() === c" [class.btn-outline-danger]="categoria() !== c" (click)="categoria.set(c)">{{ c }}</button>
+      }
+    </div>
+
+    <div class="row g-4">
+      @for (g of grupos(); track g.nombre) {
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100 tarjeta">
+            <div class="card-header fw-bold categoria">{{ g.nombre }}</div>
+            <ul class="list-group list-group-flush">
+              @for (p of g.productos; track p.id) {
+                <li class="list-group-item d-flex justify-content-between gap-2">
+                  <span>{{ p.nombre }}</span>
+                  <span class="fw-bold text-danger text-nowrap">{{ p.precio | currency: 'PEN' : 'S/ ' }}</span>
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto" class="seccion">
+  <div class="container">
+    <h2 class="titulo-seccion">Contacto</h2>
+    <div class="row g-4">
+      <div class="col-lg-5">
+        <!-- TODO: reemplazar con los datos reales del local -->
+        <ul class="list-unstyled d-flex flex-column gap-3">
+          <li class="d-flex gap-3"><i class="bi bi-geo-alt icono-sm"></i><div><strong>Dirección</strong><br />Lima, Perú</div></li>
+          <li class="d-flex gap-3"><i class="bi bi-telephone icono-sm"></i><div><strong>Teléfono</strong><br />(01) 000-0000</div></li>
+          <li class="d-flex gap-3"><i class="bi bi-whatsapp icono-sm"></i><div><strong>WhatsApp</strong><br />+51 900 000 000</div></li>
+          <li class="d-flex gap-3"><i class="bi bi-clock icono-sm"></i><div><strong>Horario</strong><br />Lunes a domingo, 12:00 – 22:00</div></li>
+        </ul>
+      </div>
+      <div class="col-lg-7">
+        <div class="card tarjeta">
+          <div class="card-body">
+            <h3 class="h5 mb-3">Escríbenos</h3>
+            <form (ngSubmit)="enviar()" novalidate>
+              <div class="row g-3">
+                <div class="col-sm-6">
+                  <label for="cNombre" class="form-label">Nombre</label>
+                  <input id="cNombre" name="nombre" class="form-control" [(ngModel)]="nombre" autocomplete="name" />
+                </div>
+                <div class="col-sm-6">
+                  <label for="cCorreo" class="form-label">Correo</label>
+                  <input id="cCorreo" name="correo" type="email" class="form-control" [(ngModel)]="correo" autocomplete="email" />
+                </div>
+                <div class="col-12">
+                  <label for="cMensaje" class="form-label">Mensaje</label>
+                  <textarea id="cMensaje" name="mensaje" rows="4" class="form-control" [(ngModel)]="mensajeTexto"></textarea>
+                </div>
+              </div>
+              @if (enviado(); as e) {
+                <div class="alert mt-3 mb-0 py-2" [class.alert-success]="e.ok" [class.alert-danger]="!e.ok" role="alert">{{ e.texto }}</div>
+              }
+              <button class="btn btn-mysam mt-3" type="submit"><i class="bi bi-send"></i> Enviar mensaje</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="pie text-center py-4 small">
+  <div class="fw-bold mb-1">Chifa MY SAM</div>
+  © {{ anio }} · UPC – Desarrollo para Entorno Web (Grupo 4)
+</footer>

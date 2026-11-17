@@ -34,6 +34,7 @@ src/app
 │   ├── footer/
 │   └── layout.ts|html|css
 ├── pages/
+│   ├── home/               # Página pública: Home, Resumen, Carta y Contacto
 │   ├── login/              # Inicio de sesión
 │   ├── inicio/             # Resumen y accesos por rol
 │   ├── mesero/

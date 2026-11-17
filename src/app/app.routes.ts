@@ -9,8 +9,10 @@ import { Cocina } from './pages/cocina/cocina';
 import { Caja } from './pages/caja/caja';
 import { Reportes } from './pages/reportes/reportes';
 import { Carta } from './pages/carta/carta';
+import { Home } from './pages/home/home';
 
 export const routes: Routes = [
+  { path: '', pathMatch: 'full', component: Home, title: 'Chifa MY SAM' },
   { path: 'login', component: Login, title: 'Iniciar sesión | MY SAM' },
   {
     path: '',
@@ -18,7 +20,6 @@ export const routes: Routes = [
     canActivate: [authGuard],
     canActivateChild: [authGuard],
     children: [
-      { path: '', redirectTo: 'inicio', pathMatch: 'full' },
       { path: 'inicio', component: Inicio, title: 'Inicio | MY SAM' },
       {
         path: 'mesero/registro-pedido',

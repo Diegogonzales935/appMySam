@@ -281,6 +281,16 @@ export class Data {
     return { ok: true, mensaje: 'Producto agregado a la carta.' };
   }
 
+  // ===== Mensajes de contacto (página pública) =====
+  readonly mensajes = signal<{ nombre: string; correo: string; mensaje: string; fecha: Date }[]>([]);
+
+  registrarMensaje(nombre: string, correo: string, mensaje: string): void {
+    this.mensajes.update((ms) => [
+      ...ms,
+      { nombre: nombre.trim(), correo: correo.trim(), mensaje: mensaje.trim(), fecha: new Date() },
+    ]);
+  }
+
   // ===== Datos de ejemplo para reportes =====
   private cargarDatosIniciales(): void {
     const p = this.productos();
