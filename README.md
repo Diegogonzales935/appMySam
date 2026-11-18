@@ -4,6 +4,9 @@ Trabajo Parcial (TB1) · Desarrollo para Entorno Web · UPC 2026-2 · Grupo 4
 
 Aplicación web en **Angular + Bootstrap 5** que digitaliza el registro de pedidos, las comandas de cocina, los cobros en caja y los reportes de ventas del chifa MY SAM.
 
+- **Demo:** https://chifa-mysam.vercel.app
+- **Repositorio:** https://github.com/Diegogonzales935/appMySam
+
 ## Ejecutar
 
 ```bash
